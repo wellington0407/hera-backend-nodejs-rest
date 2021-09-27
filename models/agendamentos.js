@@ -43,6 +43,30 @@ class Agendamento {
 
 
     }
+    lista(res){
+        const sql = 'SELECT * FROM agendamentos'
+
+        conexao.query(sql, (erro,resultado)=>{
+            if(erro){
+                res.status(400).json(erro)
+            }else{
+                res.status(200).json(resultado)
+            }
+        })
+
+    }
+    buscaPorId(id,res){
+        const sql = `SELECT * FROM agendamentos WHERE id = ${id}`
+        
+        conexao.query(sql, (erro,resultados)=>{
+            const agendamento = resultados[0]
+            if(erro){
+                res.status(400).json(erro)
+            }else{
+                res.status(200).json(agendamento)
+            }
+        })
+    }
 }
 
 module.exports = new Agendamento
