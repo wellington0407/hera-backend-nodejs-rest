@@ -12,4 +12,13 @@ module.exports = app => {
         const agendamento = req.body
         Agendamento.adiciona(agendamento, res)
     })
+    app.patch('/agendamentos/:id', (req, res)=>{
+        const id = parseInt(req.params.id)
+        const valores = req.body
+        Agendamento.altera(id, valores, res)
+    })
+    app.delete('/agendamentos/:id', (req, res) => {
+        const id = parseInt(req.params.id)
+        Agendamento.apaga(id, res)
+    })
 }

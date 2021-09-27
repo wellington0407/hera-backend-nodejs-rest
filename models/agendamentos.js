@@ -35,7 +35,7 @@ class Agendamento {
                 if (erro) {
                     res.status(400).json(erro)
                 } else {
-                    res.status(201).json(resultados)
+                    res.status(201).json({agendamento})
                 }
             })
         }
@@ -63,7 +63,34 @@ class Agendamento {
             if(erro){
                 res.status(400).json(erro)
             }else{
-                res.status(200).json(agendamento)
+                res.status(200).json(resultados)
+            }
+        })
+    }
+    altera(id, valores, res){
+        if(valores.data_provavel){
+            valores.data_provavel = moment(valores.data_provavel, 'DD/MM/YYYY').format('YYYY-MM-DD HH:MM:SS')
+        }
+        const sql = `UPDATE agendamentos SET ? WHERE id = ${id}`
+
+        conexao.query(sql, valores ,(erro,resultados)=>{
+            const agendamento = resultados[0]
+            if(erro){
+                res.status(400).json(erro)
+            }else{
+                res.status(200).json({...valores,id})
+            }
+        })
+    }
+    apaga(id,res){
+        const sql = `DELETE FROM agendamentos WHERE id = ${id}`
+        
+        conexao.query(sql, (erro,resultados)=>{
+            const agendamento = resultados[0]
+            if(erro){
+                res.status(400).json(erro)
+            }else{
+                res.status(200).json({id})
             }
         })
     }
